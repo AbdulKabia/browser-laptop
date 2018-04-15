@@ -101,6 +101,12 @@ describe('urlutil', function () {
       it('has custom protocol', function () {
         assert.equal(urlUtil.isNotURL('brave://test'), false)
       })
+      it('is a valid search with space inside of search', function () {
+        assert.equal(urlUtil.isNotURL('https://www.google.ca/search?q=dog cat'), false)
+      })
+      it('is a valid search with leading and trailing spaces', function () {
+        assert.equal(urlUtil.isNotURL(' https://www.google.ca/search?q=dog cat '), false)
+      })
     })
 
     describe('returns true when input:', function () {
@@ -234,7 +240,7 @@ describe('urlutil', function () {
     it('gets bare domain hostname patterns', function () {
       // XXX: *.com probably should be excluded
       assert.deepEqual(urlUtil.getHostnamePatterns('http://brave.com'),
-                       ['brave.com', '*.com', 'brave.*'])
+        ['brave.com', '*.com', 'brave.*'])
     })
     it('gets subdomain hostname patterns', function () {
       assert.deepEqual(urlUtil.getHostnamePatterns('https://bar.brave.com'),
@@ -477,12 +483,12 @@ describe('urlutil', function () {
         '//X1gUj4viwVObKrddH9YDoHvuujAEuNV+bLwFS8XxdSr+Cq3Vf+4F5RgQl6ZR2p1eAzU/HX80YBYy' +
         '//JLCuexwJCO2O1bwCRidAfWBSctswbI12GAJT3yiwFR7+MBjGK2g/WAJR3FdF84E2rK5VR0YH/9k='
       const result = urlUtil.parseFaviconDataUrl(jpg)
-      assert.deepEqual(result, {data: expected, ext: 'jpeg'})
+      assert.deepEqual(result, { data: expected, ext: 'jpeg' })
     })
     it('valid png', function () {
       const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU//5ErkJggg=='
       const result = urlUtil.parseFaviconDataUrl(png)
-      assert.deepEqual(result, {data: 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU//5ErkJggg==', ext: 'png'})
+      assert.deepEqual(result, { data: 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU//5ErkJggg==', ext: 'png' })
     })
   })
 
